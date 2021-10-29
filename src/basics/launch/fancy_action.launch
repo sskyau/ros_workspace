@@ -1,0 +1,6 @@
+<launch>
+
+<node name="lab4_action_server" pkg="basics" type="fancy_action_server.py" />
+<node name="lab4_action_client" pkg="basics" type="fancy_action_client.py" args="10" output="screen" />
+
+</launch>

@@ -16,7 +16,7 @@ def do_timer(goal):
     # END PART_2
 
     # BEGIN PART_3
-    if goal.time_to_wait.to_sec() > 60.0:
+    if goal.time_to_wait.to_sec() > 120.0:
         result = TimerResult()
         result.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
         result.updates_sent = update_count

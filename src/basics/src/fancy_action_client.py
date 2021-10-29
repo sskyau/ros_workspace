@@ -7,6 +7,8 @@ import time
 import actionlib
 from basics.msg import TimerAction, TimerGoal, TimerResult, TimerFeedback
 
+import sys
+
 # BEGIN PART_1
 def feedback_cb(feedback):
     print('[Feedback] Time elapsed: %f'%(feedback.time_elapsed.to_sec()))
@@ -18,7 +20,9 @@ client = actionlib.SimpleActionClient('timer', TimerAction)
 client.wait_for_server()
 
 goal = TimerGoal()
-goal.time_to_wait = rospy.Duration.from_sec(5.0)
+#goal.time_to_wait = rospy.Duration.from_sec(5.0)
+goal.time_to_wait = rospy.Duration.from_sec(float(sys.argv[1]))
+
 # BEGIN PART_5
 # Uncomment this line to test server-side abort:
 #goal.time_to_wait = rospy.Duration.from_sec(500.0)

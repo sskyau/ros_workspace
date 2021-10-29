@@ -1,0 +1,19 @@
+<launch>
+
+<node name="lab4_action_server" pkg="basics" type="fancy_action_server.py">
+	<remap from="timer" to="lab4/timer" />
+</node>
+
+<node name="lab4_action_client" pkg="basics" type="fancy_action_client.py" args="$(arg sec)"  output="screen" >
+	<remap from="timer" to="lab4/timer" />
+</node>
+
+
+<node name="topic_publisher" pkg="basics" type="topic_publisher.py" >
+	<remap from="/counter" to="lab4/timer" />
+</node>
+
+<node name="topic_subscriber" pkg="basics" type="topic_subscriber.py" >
+	<remap from="/counter" to="lab4/timer" />
+</node>
+</launch>
