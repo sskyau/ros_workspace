@@ -132,6 +132,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/skyau/ros_workspace/build/gtest/cmake_install.cmake")
   include("/home/skyau/ros_workspace/build/basics/cmake_install.cmake")
+  include("/home/skyau/ros_workspace/build/project/cmake_install.cmake")
   include("/home/skyau/ros_workspace/build/tutorial_pkg/cmake_install.cmake")
   include("/home/skyau/ros_workspace/build/rosbot_bath/cmake_install.cmake")
 

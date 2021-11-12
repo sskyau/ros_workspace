@@ -412,6 +412,12 @@ openslam_gmapping_DIR:PATH=openslam_gmapping_DIR-NOTFOUND
 pluginlib_DIR:PATH=/opt/ros/melodic/share/pluginlib/cmake
 
 //Value Computed by CMake
+project_BINARY_DIR:STATIC=/home/skyau/ros_workspace/build/project
+
+//Value Computed by CMake
+project_SOURCE_DIR:STATIC=/home/skyau/ros_workspace/src/project
+
+//Value Computed by CMake
 rosbot_bath_BINARY_DIR:STATIC=/home/skyau/ros_workspace/build/rosbot_bath
 
 //Value Computed by CMake
@@ -602,7 +608,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
