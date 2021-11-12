@@ -1,0 +1,8 @@
+prefix=/home/skyau/ros_workspace/devel
+
+Name: tutorial_pkg
+Description: Description of tutorial_pkg
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/skyau/ros_workspace/install
+
+Name: rosbot_bath
+Description: Description of rosbot_bath
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp
