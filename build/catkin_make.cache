@@ -1,2 +1,2 @@
-basics:gazebo_dev:gazebo_ros:gazebo_ros_control:openslam_gmapping:project:rosbot_bath:slam_gmapping/gmapping:slam_gmapping/slam_gmapping:teleop_twist_keyboard:tutorial_pkg
+basics:gazebo_dev:gazebo_ros:gazebo_ros_control:openslam_gmapping:project:resource_retriever:rosbot_bath:rviz:slam_gmapping/gmapping:slam_gmapping/slam_gmapping:teleop_twist_keyboard:tutorial_pkg
 -DCATKIN_DEVEL_PREFIX=/home/skyau/ros_workspace/devel -DCMAKE_INSTALL_PREFIX=/home/skyau/ros_workspace/install -G Unix Makefiles

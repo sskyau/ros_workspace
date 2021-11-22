@@ -68,6 +68,18 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -123,18 +135,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
 # The main all target
 all: cmake_check_build_system
 	cd /home/skyau/ros_workspace/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/skyau/ros_workspace/build/CMakeFiles /home/skyau/ros_workspace/build/project/CMakeFiles/progress.marks
@@ -166,6 +166,21 @@ preinstall/fast:
 depend:
 	cd /home/skyau/ros_workspace/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+project/CMakeFiles/test_odom_sub_node.dir/rule:
+	cd /home/skyau/ros_workspace/build && $(MAKE) -f CMakeFiles/Makefile2 project/CMakeFiles/test_odom_sub_node.dir/rule
+.PHONY : project/CMakeFiles/test_odom_sub_node.dir/rule
+
+# Convenience name for target.
+test_odom_sub_node: project/CMakeFiles/test_odom_sub_node.dir/rule
+
+.PHONY : test_odom_sub_node
+
+# fast build rule for target.
+test_odom_sub_node/fast:
+	cd /home/skyau/ros_workspace/build && $(MAKE) -f project/CMakeFiles/test_odom_sub_node.dir/build.make project/CMakeFiles/test_odom_sub_node.dir/build
+.PHONY : test_odom_sub_node/fast
 
 # Convenience name for target.
 project/CMakeFiles/project_time_dist_monitor_node.dir/rule:
@@ -209,6 +224,33 @@ src/project_time_dist_monitor_node.cpp.s:
 	cd /home/skyau/ros_workspace/build && $(MAKE) -f project/CMakeFiles/project_time_dist_monitor_node.dir/build.make project/CMakeFiles/project_time_dist_monitor_node.dir/src/project_time_dist_monitor_node.cpp.s
 .PHONY : src/project_time_dist_monitor_node.cpp.s
 
+src/test_odom_sub.o: src/test_odom_sub.cpp.o
+
+.PHONY : src/test_odom_sub.o
+
+# target to build an object file
+src/test_odom_sub.cpp.o:
+	cd /home/skyau/ros_workspace/build && $(MAKE) -f project/CMakeFiles/test_odom_sub_node.dir/build.make project/CMakeFiles/test_odom_sub_node.dir/src/test_odom_sub.cpp.o
+.PHONY : src/test_odom_sub.cpp.o
+
+src/test_odom_sub.i: src/test_odom_sub.cpp.i
+
+.PHONY : src/test_odom_sub.i
+
+# target to preprocess a source file
+src/test_odom_sub.cpp.i:
+	cd /home/skyau/ros_workspace/build && $(MAKE) -f project/CMakeFiles/test_odom_sub_node.dir/build.make project/CMakeFiles/test_odom_sub_node.dir/src/test_odom_sub.cpp.i
+.PHONY : src/test_odom_sub.cpp.i
+
+src/test_odom_sub.s: src/test_odom_sub.cpp.s
+
+.PHONY : src/test_odom_sub.s
+
+# target to generate assembly for a file
+src/test_odom_sub.cpp.s:
+	cd /home/skyau/ros_workspace/build && $(MAKE) -f project/CMakeFiles/test_odom_sub_node.dir/build.make project/CMakeFiles/test_odom_sub_node.dir/src/test_odom_sub.cpp.s
+.PHONY : src/test_odom_sub.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -216,16 +258,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
+	@echo "... install"
+	@echo "... test_odom_sub_node"
+	@echo "... project_time_dist_monitor_node"
 	@echo "... install/local"
 	@echo "... test"
 	@echo "... list_install_components"
-	@echo "... project_time_dist_monitor_node"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... install"
 	@echo "... src/project_time_dist_monitor_node.o"
 	@echo "... src/project_time_dist_monitor_node.i"
 	@echo "... src/project_time_dist_monitor_node.s"
+	@echo "... src/test_odom_sub.o"
+	@echo "... src/test_odom_sub.i"
+	@echo "... src/test_odom_sub.s"
 .PHONY : help
 
 

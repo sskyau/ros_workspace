@@ -712,3 +712,87 @@ make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
 Source file was:
 __attribute__((__deprecated__)) int somefunc() { return 0; }
     int main() { return somefunc();}
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b83b7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b83b7.dir/build.make CMakeFiles/cmTC_b83b7.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b83b7.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTC_b83b7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_b83b7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b83b7.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay    -rdynamic CMakeFiles/cmTC_b83b7.dir/CheckFunctionExists.c.o  -o cmTC_b83b7 /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXext.so 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ea573/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ea573.dir/build.make CMakeFiles/cmTC_ea573.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ea573.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname   -o CMakeFiles/cmTC_ea573.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ea573
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ea573.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname    -rdynamic CMakeFiles/cmTC_ea573.dir/CheckFunctionExists.c.o  -o cmTC_ea573 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_719fe/fast"
+/usr/bin/make -f CMakeFiles/cmTC_719fe.dir/build.make CMakeFiles/cmTC_719fe.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_719fe.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect   -o CMakeFiles/cmTC_719fe.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_719fe
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_719fe.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect    -rdynamic CMakeFiles/cmTC_719fe.dir/CheckFunctionExists.c.o  -o cmTC_719fe 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_04d25/fast"
+/usr/bin/make -f CMakeFiles/cmTC_04d25.dir/build.make CMakeFiles/cmTC_04d25.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_04d25.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove   -o CMakeFiles/cmTC_04d25.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_04d25
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_04d25.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove    -rdynamic CMakeFiles/cmTC_04d25.dir/CheckFunctionExists.c.o  -o cmTC_04d25 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7cf1f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7cf1f.dir/build.make CMakeFiles/cmTC_7cf1f.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7cf1f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat   -o CMakeFiles/cmTC_7cf1f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7cf1f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cf1f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat    -rdynamic CMakeFiles/cmTC_7cf1f.dir/CheckFunctionExists.c.o  -o cmTC_7cf1f 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_609af/fast"
+/usr/bin/make -f CMakeFiles/cmTC_609af.dir/build.make CMakeFiles/cmTC_609af.dir/build
+make[1]: Entering directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_609af.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTC_609af.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_609af
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_609af.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber    -rdynamic CMakeFiles/cmTC_609af.dir/CheckFunctionExists.c.o  -o cmTC_609af -lICE 
+make[1]: Leaving directory '/home/skyau/ros_workspace/build/CMakeFiles/CMakeTmp'
+
+

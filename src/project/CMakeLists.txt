@@ -132,7 +132,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
  add_executable(${PROJECT_NAME}_time_dist_monitor_node src/project_time_dist_monitor_node.cpp)
-
+add_executable(test_odom_sub_node src/test_odom_sub.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -141,12 +141,17 @@ include_directories(
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(test_odom_sub_node nav_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(${PROJECT_NAME}_time_dist_monitor_node
    ${catkin_LIBRARIES}
  )
+
+target_link_libraries(test_odom_sub_node 
+   ${catkin_LIBRARIES}
+)
+
 
 #############
 ## Install ##
