@@ -166,6 +166,14 @@
 /home/skyau/ros_workspace/build/project/CMakeFiles/list_install_components.dir
 /home/skyau/ros_workspace/build/project/CMakeFiles/edit_cache.dir
 /home/skyau/ros_workspace/build/project/CMakeFiles/rebuild_cache.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/install/strip.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/install/local.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/test.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/list_install_components.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/edit_cache.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/rebuild_cache.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/sky29_rosbot_node.dir
+/home/skyau/ros_workspace/build/sky29_rosbot/CMakeFiles/install.dir
 /home/skyau/ros_workspace/build/gazebo_ros/CMakeFiles/install.dir
 /home/skyau/ros_workspace/build/gazebo_ros/CMakeFiles/list_install_components.dir
 /home/skyau/ros_workspace/build/gazebo_ros/CMakeFiles/edit_cache.dir

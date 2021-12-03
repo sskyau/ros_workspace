@@ -1,0 +1,8 @@
+prefix=/home/skyau/ros_workspace/devel
+
+Name: sky29_rosbot
+Description: Description of sky29_rosbot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

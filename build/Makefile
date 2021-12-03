@@ -1260,6 +1260,19 @@ project_time_dist_monitor_node/fast:
 .PHONY : project_time_dist_monitor_node/fast
 
 #=============================================================================
+# Target rules for targets named sky29_rosbot_node
+
+# Build rule for target.
+sky29_rosbot_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sky29_rosbot_node
+.PHONY : sky29_rosbot_node
+
+# fast build rule for target.
+sky29_rosbot_node/fast:
+	$(MAKE) -f sky29_rosbot/CMakeFiles/sky29_rosbot_node.dir/build.make sky29_rosbot/CMakeFiles/sky29_rosbot_node.dir/build
+.PHONY : sky29_rosbot_node/fast
+
+#=============================================================================
 # Target rules for targets named gazebo_ros_api_plugin
 
 # Build rule for target.
@@ -4099,6 +4112,7 @@ help:
 	@echo "... basics_genlisp"
 	@echo "... test_odom_sub_node"
 	@echo "... project_time_dist_monitor_node"
+	@echo "... sky29_rosbot_node"
 	@echo "... gazebo_ros_api_plugin"
 	@echo "... gazebo_ros_gencfg"
 	@echo "... trajectory_msgs_generate_messages_nodejs"

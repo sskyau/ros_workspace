@@ -1477,6 +1477,12 @@ sensor_odometry_LIB_DEPENDS:STATIC=general;sensor_base;
 sensor_range_LIB_DEPENDS:STATIC=general;sensor_base;
 
 //Value Computed by CMake
+sky29_rosbot_BINARY_DIR:STATIC=/home/skyau/ros_workspace/build/sky29_rosbot
+
+//Value Computed by CMake
+sky29_rosbot_SOURCE_DIR:STATIC=/home/skyau/ros_workspace/src/sky29_rosbot
+
+//Value Computed by CMake
 slam_gmapping_BINARY_DIR:STATIC=/home/skyau/ros_workspace/build/slam_gmapping/slam_gmapping
 
 //Value Computed by CMake
@@ -1891,7 +1897,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=26
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=27
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
