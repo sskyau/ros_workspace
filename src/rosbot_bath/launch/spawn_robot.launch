@@ -14,7 +14,7 @@
 
   <arg name="pitch" default="0"/>
 
-  <arg name="yaw" default="0"/>
+  <arg name="yaw" default="3.1416"/>
 
 
 

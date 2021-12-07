@@ -6,67 +6,103 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from rosgraph_msgs.msg import Clock
 import math
+import message_filters
+from sensor_msgs.msg import LaserScan
 
-fl_range = 0.899
-fr_range = 0.899
 
 isFirstRun = True
 
 new_x = 0.0
 new_y = 0.0
-dist = 0.0
-simTime = 0.0
-
-def consol_sensor_ranges(fl_range, fr_range):
-    if fl_range < 0.6 and fr_range > 0.6:
-        move.linear.x = 0
-        move.angular.z = 0
-        pub.publish(move)
-
-        move.linear.x = 0.0
-        move.angular.z = -1.0
-   
-    elif fl_range > 0.6 and fr_range < 0.6:
-        move.linear.x = 0
-        move.angular.z = 0
-        pub.publish(move)
 
 
-        move.linear.x = 0.0
-        move.angular.z = 1.0
+def laser_callback(msg, odom_msg):
+
     
-    elif fl_range < 0.6 and fr_range < 0.6:
+    calc_dist_travelled(odom_msg)
+
+    #print(len(msg.ranges))
+    regions = {
+        #'right': min(min(msg.ranges[0:143]),10),
+        #'fr': min(min(msg.ranges[144:287]), 10), 
+        #'front': min(min(msg.ranges[288:431]),10),
+        #'fl': min(min(msg.ranges[432:575]), 10),
+        #'left': min(min(msg.ranges[576:713]), 10),
+        'a': msg.ranges[0],
+        'b': msg.ranges[180],
+        'c': msg.ranges[360],
+        'd': msg.ranges[540],
+    }
+
+    if math.isinf(regions['c']):
+        regions['c'] = 5
+
+    z = odom_msg.pose.pose.orientation.z
+    w = odom_msg.pose.pose.orientation.w
+
+    take_action(regions, z, w)
+
+def take_action(regions, z, w):
+    print()
+    print("a 0: " + str(regions['a']))
+    print("b 180: " + str(regions['b']))
+    print("c 360: " + str(regions['c']))
+    print("d 540: " + str(regions['d']))
+    print("z: " + str(z))
+    print("w: " + str(w))
+
+    #print("left: " + str(regions['left']))
+    #print("fl: " + str(regions['fl']))
+    #print("front: " + str(regions['front']))
+   # print("fr: " + str(regions['fr']))
+    #print("right: " + str(regions['right']))
+
+    if regions['a'] < 2:
         move.linear.x = 0
         move.angular.z = 0
         pub.publish(move)
+    
+        #if left obtacle closer than right obstacle, turn right
+        if regions['b'] < regions['d']: 
+            print("left obstacle is closer than right obstacle, turn right")
+            move.linear.x = 0
+            move.angular.z = -2
 
-        move.linear.x = -0.5
-        move.angular.z = 0.0
-
+        #if right obstacle closer than or equal to right obstacle, turn right
+        else:
+            print("right obstacle closer than/equal to left obstacle, turn left")
+            move.linear.x = 0
+            move.angular.z = 2
     else:
-        move.linear.x = 0.5
-        move.angular.z = 0.0
+        # TODO: adjust direction
+         if abs(w) > 0.3 and z * w > 0 and regions['b'] > 2.5:
+            print("turning left to face towards goal")
+            move.linear.x = 0.0
+            move.angular.z = 0.0
+            pub.publish(move)
 
-    print("consolidated fl_range: " + str(fl_range))
-    print("consolidated fr_range: " + str(fr_range))
-    print("move linear x: " + str(move.linear.x))
-    print("move angular.z: " + str(move.angular.z))
+            move.linear.x = 0.0
+            move.angular.z = 2.0
 
-    return move
+         elif abs(w) > 0.3 and z * w < 0 and regions['d'] > 2.5:
+            print("turning right to face towards goal")
+            move.linear.x = 0.0
+            move.angular.z = 0.0
+            pub.publish(move)
 
-def fl_callback(msg):
+            move.linear.x = 0.0
+            move.angular.z = -2.0
 
-    fl_range = msg.range
-    print("fl: " + str(msg.range))
+         else:
+            print("no obstacle")
+            move.linear.x = 0.5
+            move.angular.z = 0
 
-def fr_callback(msg):
-    fr_range = msg.range
-    print("fr: " + str(msg.range))
-    move = consol_sensor_ranges(fl_range, msg.range)
     pub.publish(move)
 
-def odom_callback(odom_data):
-
+    
+def calc_dist_travelled(msg):
+    
     if isFirstRun ==  True:
         old_x = round(msg.pose.pose.position.x*100.0)/100.0
         old_y = round(msg.pose.pose.position.y*100.0)/100.0
@@ -79,26 +115,33 @@ def odom_callback(odom_data):
     old_y = new_y
     isFirstRun = False 
 
-    print("z: ", odom_data.pose.pose.orientation.z)
-    print("w: ", odom_data.pose.pose.orientation.w)
-
 def clock_callback(msg):
-    simTime = msg.clock
+    print("Simulation Time: " + str(msg.clock.secs) + " secs")
 
-#fl_range = 0.899
-#fr_range = 0.899
 rospy.init_node('bot_control')
 move = Twist()
-sub_fl = rospy.Subscriber('/range/fl', Range , fl_callback)
-sub_fr = rospy.Subscriber('/range/fr', Range , fr_callback)
-sub_odom = rospy.Subscriber('/odom',  Odometry, odom_callback)
+
+print("node activated")
+
+#sub_fl = message_filters.Subscriber('/range/fl', Range)
+#sub_fr = message_filters.Subscriber('/range/fr', Range)
+#sub_rl = message_filters.Subscriber('/range/rl', Range)
+#sub_rr = message_filters.Subscriber('/range/rr', Range)
+sub_odom = message_filters.Subscriber('/odom',  Odometry)
+
+#ts = message_filters.ApproximateTimeSynchronizer([sub_fl, sub_fr, sub_rl, sub_rr, sub_odom], 1,1)
+#ts.registerCallback(ts_callback)
 
 sub_clock = rospy.Subscriber('/clock', Clock, clock_callback)
 
-pub = rospy.Publisher('/cmd_vel', Twist)
+pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
-print("Simulation time: " + str(simTime))
-print("Cumulative distance travelled: " + str(dist))
+laser_sub = message_filters.Subscriber('/scan', LaserScan)
+ts = message_filters.ApproximateTimeSynchronizer([laser_sub, sub_odom], 1,1)
+ts.registerCallback(laser_callback)
+
+#print("Simulation time: " + str(simTime))
+#print("Cumulative distance travelled: " + str(dist))
 
 rospy.spin()
 
