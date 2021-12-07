@@ -29,13 +29,16 @@ def laser_callback(msg, odom_msg):
         #'fl': min(min(msg.ranges[432:575]), 10),
         #'left': min(min(msg.ranges[576:713]), 10),
         'a': msg.ranges[0],
-        'b': msg.ranges[180],
+        'b': min(msg.ranges[89:179]),
         'c': msg.ranges[360],
-        'd': msg.ranges[540],
+        'd': min(msg.ranges[539:629])
     }
 
-    if math.isinf(regions['c']):
-        regions['c'] = 5
+    if math.isinf(regions['b']):
+        regions['b'] = 8
+
+    if math.isinf(regions['d']):
+        regions['d'] = 8
 
     z = odom_msg.pose.pose.orientation.z
     w = odom_msg.pose.pose.orientation.w
@@ -46,7 +49,7 @@ def take_action(regions, z, w):
     print()
     print("a 0: " + str(regions['a']))
     print("b 180: " + str(regions['b']))
-    print("c 360: " + str(regions['c']))
+    print("c back: " + str(regions['c']))
     print("d 540: " + str(regions['d']))
     print("z: " + str(z))
     print("w: " + str(w))
@@ -57,7 +60,7 @@ def take_action(regions, z, w):
    # print("fr: " + str(regions['fr']))
     #print("right: " + str(regions['right']))
 
-    if regions['a'] < 2.5:
+    if regions['a'] < 1.5:
         move.linear.x = 0
         move.angular.z = 0
         pub.publish(move)
@@ -75,7 +78,7 @@ def take_action(regions, z, w):
             move.angular.z = 2
     else:
         # TODO: adjust direction
-         if abs(w) > 0.3 and z * w > 0 and regions['b'] > 3:
+         if abs(w) > 0.25 and z * w > 0 and regions['b'] > 2:
             print("turning left to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
@@ -84,7 +87,7 @@ def take_action(regions, z, w):
             move.linear.x = 0.0
             move.angular.z = 2.0
 
-         elif abs(w) > 0.3 and z * w < 0 and regions['d'] > 3:
+         elif abs(w) > 0.25 and z * w < 0 and regions['d'] > 2:
             print("turning right to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
