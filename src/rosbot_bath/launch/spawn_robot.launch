@@ -1,0 +1,33 @@
+<!-- spawn_robot.launch -->
+
+<launch>
+
+  <!-- Robot pose -->
+
+  <arg name="x" default="0"/>
+
+  <arg name="y" default="0"/>
+
+  <arg name="z" default="0"/>
+
+  <arg name="roll" default="0"/>
+
+  <arg name="pitch" default="0"/>
+
+  <arg name="yaw" default="0"/>
+
+
+
+  <param name="robot_description"
+
+         command="$(find xacro)/xacro.py $(find rosbot_bath)/urdf/rosbot.xacro"/>
+
+  <node name="rosbot_spawn" pkg="gazebo_ros" type="spawn_model"
+
+        args="-urdf -param robot_description -model rosbot
+
+              -x $(arg x) -y $(arg y) -z $(arg z)
+
+              -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+
+</launch>
