@@ -12,9 +12,9 @@ from sensor_msgs.msg import LaserScan
 
 isFirstRun = True
 
-new_x = 0.0
-new_y = 0.0
-
+old_x = 0.0
+old_y = 0.0
+dist = 0.0
 
 def laser_callback(msg, odom_msg):
 
@@ -57,7 +57,7 @@ def take_action(regions, z, w):
    # print("fr: " + str(regions['fr']))
     #print("right: " + str(regions['right']))
 
-    if regions['a'] < 2:
+    if regions['a'] < 2.5:
         move.linear.x = 0
         move.angular.z = 0
         pub.publish(move)
@@ -75,7 +75,7 @@ def take_action(regions, z, w):
             move.angular.z = 2
     else:
         # TODO: adjust direction
-         if abs(w) > 0.3 and z * w > 0 and regions['b'] > 2.5:
+         if abs(w) > 0.3 and z * w > 0 and regions['b'] > 3:
             print("turning left to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
@@ -84,7 +84,7 @@ def take_action(regions, z, w):
             move.linear.x = 0.0
             move.angular.z = 2.0
 
-         elif abs(w) > 0.3 and z * w < 0 and regions['d'] > 2.5:
+         elif abs(w) > 0.3 and z * w < 0 and regions['d'] > 3:
             print("turning right to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
@@ -102,18 +102,24 @@ def take_action(regions, z, w):
 
     
 def calc_dist_travelled(msg):
-    
+    global isFirstRun
+    global dist 
+    global old_x
+    global old_y   
+     
     if isFirstRun ==  True:
         old_x = round(msg.pose.pose.position.x*100.0)/100.0
         old_y = round(msg.pose.pose.position.y*100.0)/100.0
 
-    new_x = round(msg.pose.pose.pose.position.x*100.0)/100.0
-    new_y = round(msg.pose.pose.pose.position.y*100.0)/100.0
+    new_x = round(msg.pose.pose.position.x*100.0)/100.0
+    new_y = round(msg.pose.pose.position.y*100.0)/100.0
 
     dist = dist + math.sqrt((new_x - old_x)**2 + (new_y - old_y)**2)
     old_x = new_x
     old_y = new_y
     isFirstRun = False 
+
+    print("Distance travelled: " + str(dist))
 
 def clock_callback(msg):
     print("Simulation Time: " + str(msg.clock.secs) + " secs")
