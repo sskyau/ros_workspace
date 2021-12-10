@@ -1,0 +1,6 @@
+<launch>
+
+<node name = "bot_control" pkg = "sky29_rosbot" type = "control.py" output = "screen" />
+
+
+</launch>
