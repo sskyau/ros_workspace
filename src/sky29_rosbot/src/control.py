@@ -16,7 +16,7 @@ old_x = 0.0
 old_y = 0.0
 dist = 0.0
 
-def laser_callback(msg, odom_msg):
+def laser_callback(msg, odom_msg, fl_msg, fr_msg):
 
     
     calc_dist_travelled(odom_msg)
@@ -43,9 +43,12 @@ def laser_callback(msg, odom_msg):
     z = odom_msg.pose.pose.orientation.z
     w = odom_msg.pose.pose.orientation.w
 
-    take_action(regions, z, w)
+    print("fl range: " + str(fl_msg.range))
+    print("fr range: " + str(fr_msg.range))
 
-def take_action(regions, z, w):
+    take_action(regions, z, w, fl_msg.range, fr_msg.range)
+
+def take_action(regions, z, w, fl, fr):
     print()
     print("a 0: " + str(regions['a']))
     print("b 180: " + str(regions['b']))
@@ -60,6 +63,7 @@ def take_action(regions, z, w):
    # print("fr: " + str(regions['fr']))
     #print("right: " + str(regions['right']))
 
+    # if there is obtacle in front and detectable by laser scanner
     if regions['a'] < 1.5:
         move.linear.x = 0
         move.angular.z = 0
@@ -76,9 +80,23 @@ def take_action(regions, z, w):
             print("right obstacle closer than/equal to left obstacle, turn left")
             move.linear.x = 0
             move.angular.z = 2
+    
+    # if there is obstacle in front detected by infrared sensor
+    elif fl < 0.7:
+        if fl < fr:
+            print("front left obstacle detected by infrared, turn right")
+            move.linear.x = 0
+            move.angular.z = -2
+
+    elif fr < 0.7:
+        if fr < fl:
+            print("front right obstacle detected by infrared, turn left")
+            move.linear.x = 0
+            move.angular.z = 2
+
     else:
         # TODO: adjust direction
-         if abs(w) > 0.25 and z * w > 0 and regions['b'] > 2:
+         if abs(w) > 0.15 and z * w > 0 and regions['b'] > 2:
             print("turning left to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
@@ -87,7 +105,7 @@ def take_action(regions, z, w):
             move.linear.x = 0.0
             move.angular.z = 2.0
 
-         elif abs(w) > 0.25 and z * w < 0 and regions['d'] > 2:
+         elif abs(w) > 0.15 and z * w < 0 and regions['d'] > 2:
             print("turning right to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
@@ -132,8 +150,8 @@ move = Twist()
 
 print("node activated")
 
-#sub_fl = message_filters.Subscriber('/range/fl', Range)
-#sub_fr = message_filters.Subscriber('/range/fr', Range)
+sub_fl = message_filters.Subscriber('/range/fl', Range)
+sub_fr = message_filters.Subscriber('/range/fr', Range)
 #sub_rl = message_filters.Subscriber('/range/rl', Range)
 #sub_rr = message_filters.Subscriber('/range/rr', Range)
 sub_odom = message_filters.Subscriber('/odom',  Odometry)
@@ -141,12 +159,12 @@ sub_odom = message_filters.Subscriber('/odom',  Odometry)
 #ts = message_filters.ApproximateTimeSynchronizer([sub_fl, sub_fr, sub_rl, sub_rr, sub_odom], 1,1)
 #ts.registerCallback(ts_callback)
 
-sub_clock = rospy.Subscriber('/clock', Clock, clock_callback)
+#sub_clock = rospy.Subscriber('/clock', Clock, clock_callback)
 
 pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 
 laser_sub = message_filters.Subscriber('/scan', LaserScan)
-ts = message_filters.ApproximateTimeSynchronizer([laser_sub, sub_odom], 1,1)
+ts = message_filters.ApproximateTimeSynchronizer([laser_sub, sub_odom, sub_fl, sub_fr], 1,1)
 ts.registerCallback(laser_callback)
 
 #print("Simulation time: " + str(simTime))
