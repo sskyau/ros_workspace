@@ -8,47 +8,55 @@ from rosgraph_msgs.msg import Clock
 import math
 import message_filters
 from sensor_msgs.msg import LaserScan
+import sys
 
+def sensor_callback(lidar_msg, odom_msg, fl_msg, fr_msg):
 
-isFirstRun = True
+    x = odom_msg.pose.pose.position.x
 
-old_x = 0.0
-old_y = 0.0
-dist = 0.0
+    if x > -4.178339:     
+        calc_dist_travelled(odom_msg)
 
-def laser_callback(msg, odom_msg, fl_msg, fr_msg):
+        #print(len(msg.ranges))
+        regions = {
+            #'right': min(min(msg.ranges[0:143]),10),
+            #'fr': min(min(msg.ranges[144:287]), 10), 
+            #'front': min(min(msg.ranges[288:431]),10),
+            #'fl': min(min(msg.ranges[432:575]), 10),
+            #'left': min(min(msg.ranges[576:713]), 10),
+            'a': lidar_msg.ranges[0],
+            'b': min(lidar_msg.ranges[89:179]),
+            'c': lidar_msg.ranges[360],
+            'd': min(lidar_msg.ranges[539:629])
+        }
 
-    
-    calc_dist_travelled(odom_msg)
+        if math.isinf(regions['b']):
+            regions['b'] = 8
 
-    #print(len(msg.ranges))
-    regions = {
-        #'right': min(min(msg.ranges[0:143]),10),
-        #'fr': min(min(msg.ranges[144:287]), 10), 
-        #'front': min(min(msg.ranges[288:431]),10),
-        #'fl': min(min(msg.ranges[432:575]), 10),
-        #'left': min(min(msg.ranges[576:713]), 10),
-        'a': msg.ranges[0],
-        'b': min(msg.ranges[89:179]),
-        'c': msg.ranges[360],
-        'd': min(msg.ranges[539:629])
-    }
+        if math.isinf(regions['d']):
+            regions['d'] = 8
+        y_pos = odom_msg.pose.pose.position.y
+        z = odom_msg.pose.pose.orientation.z
+        w = odom_msg.pose.pose.orientation.w
 
-    if math.isinf(regions['b']):
-        regions['b'] = 8
+        print("fl range: " + str(fl_msg.range))
+        print("fr range: " + str(fr_msg.range))
 
-    if math.isinf(regions['d']):
-        regions['d'] = 8
+        take_action(regions, y_pos, z, w, fl_msg.range, fr_msg.range)
 
-    z = odom_msg.pose.pose.orientation.z
-    w = odom_msg.pose.pose.orientation.w
+    else:
+        global dist
+        global time
+        #print("reached destination")
+        atDest = True
+        move.linear.x = 0
+        move.angular.z = 0
+        pub.publish(move)
+        
+        print("reached destination dist: " + str(dist) + " time:" +str(time))
+        rospy.signal_shutdown("reached destination dist: " + str(dist) + "time:" +str(time))
 
-    print("fl range: " + str(fl_msg.range))
-    print("fr range: " + str(fr_msg.range))
-
-    take_action(regions, z, w, fl_msg.range, fr_msg.range)
-
-def take_action(regions, z, w, fl, fr):
+def take_action(regions, y_pos, z, w, fl, fr):
     print()
     print("a 0: " + str(regions['a']))
     print("b 180: " + str(regions['b']))
@@ -63,8 +71,12 @@ def take_action(regions, z, w, fl, fr):
    # print("fr: " + str(regions['fr']))
     #print("right: " + str(regions['right']))
 
+    orient_thres = 0.95
+    lidar_thres = 1.5
+    ir_thres = 0.55
+
     # if there is obtacle in front and detectable by laser scanner
-    if regions['a'] < 1.5:
+    if regions['a'] < lidar_thres:
         move.linear.x = 0
         move.angular.z = 0
         pub.publish(move)
@@ -73,48 +85,50 @@ def take_action(regions, z, w, fl, fr):
         if regions['b'] < regions['d']: 
             print("left obstacle is closer than right obstacle, turn right")
             move.linear.x = 0
-            move.angular.z = -2
+            move.angular.z = -0.5
 
         #if right obstacle closer than or equal to right obstacle, turn right
         else:
             print("right obstacle closer than/equal to left obstacle, turn left")
             move.linear.x = 0
-            move.angular.z = 2
+            move.angular.z = 0.5
     
     # if there is obstacle in front detected by infrared sensor
-    elif fl < 0.7:
+    elif fl < ir_thres:
         if fl < fr:
             print("front left obstacle detected by infrared, turn right")
             move.linear.x = 0
-            move.angular.z = -2
+            move.angular.z = -0.5
 
-    elif fr < 0.7:
+    elif fr < ir_thres:
         if fr < fl:
             print("front right obstacle detected by infrared, turn left")
             move.linear.x = 0
-            move.angular.z = 2
+            move.angular.z = 0.5
 
     else:
         # TODO: adjust direction
-         if abs(w) > 0.15 and z * w > 0 and regions['b'] > 2:
+        if abs(z) < orient_thres and z*w > 0 and regions['b'] > lidar_thres:
+        #if abs(w) > 0.15 and z * w > 0 and regions['b'] > 2:
             print("turning left to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
             pub.publish(move)
 
             move.linear.x = 0.0
-            move.angular.z = 2.0
+            move.angular.z = 0.5
 
-         elif abs(w) > 0.15 and z * w < 0 and regions['d'] > 2:
+        elif abs(z) > orient_thres and z*w < 0 and regions['d'] > lidar_thres:
+        #elif abs(w) > 0.15 and z * w < 0 and regions['b'] < regions['d']:
             print("turning right to face towards goal")
             move.linear.x = 0.0
             move.angular.z = 0.0
             pub.publish(move)
 
             move.linear.x = 0.0
-            move.angular.z = -2.0
+            move.angular.z = -0.5
 
-         else:
+        else:
             print("no obstacle")
             move.linear.x = 0.5
             move.angular.z = 0
@@ -143,32 +157,70 @@ def calc_dist_travelled(msg):
     print("Distance travelled: " + str(dist))
 
 def clock_callback(msg):
-    print("Simulation Time: " + str(msg.clock.secs) + " secs")
+    global start_time
+    global time
+    global isFirstRun
+    
+    if isFirstRun == True :
+        start_time = msg.clock.secs
+        time = msg.clock.secs
 
-rospy.init_node('bot_control')
-move = Twist()
+    if time != msg.clock.secs:
+        time = msg.clock.secs - start_time
+    
+        print("Simulation Time: " + str(time) + " secs")
+    
+    
 
-print("node activated")
+if __name__ == '__main__':
+    
+    global isFirstRun
+    isFirstRun = True
+    global atDest 
+    atDest = False
+    global old_x 
+    old_x = 0.0
+    global old_y 
+    old_y = 0.0
+    global dist 
+    dist = 0.0
 
-sub_fl = message_filters.Subscriber('/range/fl', Range)
-sub_fr = message_filters.Subscriber('/range/fr', Range)
-#sub_rl = message_filters.Subscriber('/range/rl', Range)
-#sub_rr = message_filters.Subscriber('/range/rr', Range)
-sub_odom = message_filters.Subscriber('/odom',  Odometry)
+    #global lidar_thres
+    #lidar_thres = sys.argv[2]
+    #global ir_thres
+    #ir_thres = sys.argv[4]
+    #global orient_thres
+    #orient_thres = sys.argv[6]
 
-#ts = message_filters.ApproximateTimeSynchronizer([sub_fl, sub_fr, sub_rl, sub_rr, sub_odom], 1,1)
-#ts.registerCallback(ts_callback)
+    #print("lidar threshold: " + str(lidar_thres))
+    #print("ir threshold: " + str(ir_thres))
+    #print("orient threshold: " + str(orient_thres))
 
-#sub_clock = rospy.Subscriber('/clock', Clock, clock_callback)
+    rospy.init_node('bot_control')
+    move = Twist()
 
-pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+    print("node activated")
 
-laser_sub = message_filters.Subscriber('/scan', LaserScan)
-ts = message_filters.ApproximateTimeSynchronizer([laser_sub, sub_odom, sub_fl, sub_fr], 1,1)
-ts.registerCallback(laser_callback)
+    sub_fl = message_filters.Subscriber('/range/fl', Range)
+    sub_fr = message_filters.Subscriber('/range/fr', Range)
+    #sub_rl = message_filters.Subscriber('/range/rl', Range)
+    #sub_rr = message_filters.Subscriber('/range/rr', Range)
+    sub_odom = message_filters.Subscriber('/odom',  Odometry)
 
-#print("Simulation time: " + str(simTime))
-#print("Cumulative distance travelled: " + str(dist))
+    #ts = message_filters.ApproximateTimeSynchronizer([sub_fl, sub_fr, sub_rl, sub_rr, sub_odom], 1,1)
+    #ts.registerCallback(ts_callback)
 
-rospy.spin()
+    sub_clock = rospy.Subscriber('/clock', Clock, clock_callback)
+
+    pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+
+    laser_sub = message_filters.Subscriber('/scan', LaserScan)
+    ts = message_filters.ApproximateTimeSynchronizer([laser_sub, sub_odom, sub_fl, sub_fr], 1,1)
+    ts.registerCallback(sensor_callback)
+
+    #print("Simulation time: " + str(simTime))
+    #print("Cumulative distance travelled: " + str(dist))
+    
+    
+    rospy.spin()
 

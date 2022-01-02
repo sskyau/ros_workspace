@@ -52,3 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/sky29_rosbot" TYPE FILE FILES "/home/skyau/ros_workspace/src/sky29_rosbot/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/sky29_rosbot" TYPE PROGRAM FILES "/home/skyau/ros_workspace/build/sky29_rosbot/catkin_generated/installspace/control.py")
+endif()
+

@@ -95,6 +95,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/skyau/ros_workspace/src/rviz/src/test/CMakeLists.txt"
   "/home/skyau/ros_workspace/src/sky29_rosbot/CMakeLists.txt"
   "/home/skyau/ros_workspace/src/sky29_rosbot/package.xml"
+  "/home/skyau/ros_workspace/src/sky29_rosbot/src/control.py"
   "/home/skyau/ros_workspace/src/slam_gmapping/gmapping/CMakeLists.txt"
   "/home/skyau/ros_workspace/src/slam_gmapping/gmapping/package.xml"
   "/home/skyau/ros_workspace/src/slam_gmapping/slam_gmapping/CMakeLists.txt"

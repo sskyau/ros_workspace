@@ -1,6 +1,10 @@
 <launch>
 
-<node name = "bot_control" pkg = "sky29_rosbot" type = "control.py" output = "screen" />
+<arg name="lidar_thres" />
+<arg name="ir_thres"/>
+<arg name="orient_thres"/>
+
+<node name = "bot_control" pkg = "sky29_rosbot" type = "control.py" output = "screen" args="--lidar_thres $(arg lidar_thres) --ir_thres $(arg ir_thres) --orient_thres $(arg orient_thres)"/>
 
 
 </launch>
