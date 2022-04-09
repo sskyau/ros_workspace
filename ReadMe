@@ -1,1 +1,3 @@
 Coursework for EE50237 Robototics Software (Semester 1 - 2022) at University of Bath.
+
+A navigation system developed in ROS to help a ROSbot navigate through a maze with reactive planning. 
